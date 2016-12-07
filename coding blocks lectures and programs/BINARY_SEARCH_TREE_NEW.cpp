@@ -1,3 +1,56 @@
+#include "bits/stdc++.h"
+using namespace std;
+#define ll long long
+#define ld long double
+#define rc(x) scanf("%c",&x)
+#define rf(x) scanf("%Lf",&x)
+#define r1(x) scanf("%lld",&x)
+#define r2(x,y) scanf("%lld%lld",&x,&y)
+#define r3(x,y,z) scanf("%lld%lld%lld",&x,&y,&z)
+#define r4(x,y,z,q) scanf("%lld%lld%lld%lld",&x,&y,&z,&q)
+#define MOD 1000000007
+#define pn(x) printf("%lld\n",x)
+#define p_(x)  printf("%lld ",x)
+#define pp pair<ll,ll>
+#define V vector<ll>
+#define LM 1000000000000000000
+int main()
+{
+
+    ll n,m;
+    r2(n,m);
+    ll am[m+1];
+    for(int i=1;i<=m;i++)r1(am[i]);
+    ll an[n+1];
+    for(int i=1;i<=n;i++)r1(an[i]);
+    ll sol[n+1];
+    sol[1]=am[an[1]];
+    cout<<"rd";
+    for(int i=2;i<=n;i++){
+        ll val = sol[i-1]/am[an[i]]+1ll;
+        cout<<val;
+        ll temp = am[an[i]]*val;
+        while(1)
+        {
+            ll k=an[i]+1;
+            while(k<=m){
+                if(temp%am[k]==0){
+                    temp/=val;
+                    cout<<"hello";
+                    val++;
+                    temp*=val;
+                    break;
+                }
+            }
+            if(k==m+1)break;
+        }
+        sol[i]=temp;
+        cout<<sol[i]<<endl;
+    }
+
+    //for(int i=1;i<=n;i++)cout<<sol[i]<<" ";
+    return 0;
+}
 #include<bits/stdc++.h>
 using namespace std;
 template<typename type>
