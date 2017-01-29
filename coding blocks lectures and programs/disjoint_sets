@@ -99,3 +99,113 @@ int main()
     pn(find_set(6));
     return 0;
 }
+
+#include "bits/stdc++.h"
+using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define ru(x) scanf("%llu",&x)
+#define ld long double
+#define rc(x) scanf("%c",&x)
+#define rf(x) scanf("%Lf",&x)
+#define r1(x) scanf("%lld",&x)
+#define r2(x,y) scanf("%lld%lld",&x,&y)
+#define rep(x)  for(auto it = x.begin();it!=x.end();it++)
+#define sz(n) resize((ull)n)
+#define r3(x,y,z) scanf("%lld%lld%lld",&x,&y,&z)
+#define r4(x,y,z,q) scanf("%lld%lld%lld%lld",&x,&y,&z,&q)
+#define MOD 1000000007
+#define debug cout<<"hello ";
+#define pn(x) printf("%lld\n",x)
+#define p_(x)  printf("%lld ",x)
+#define pp pair<ll,ll>
+#define V vector<ll>
+#define LM 1000000000000000000
+class node
+{
+    public:
+    ll data;
+    ll rank;
+    node * parent;
+    node(ll val){
+        data = val;
+        rank=0;
+        parent = this;
+    }
+};
+
+map<ll,node*>my_map;
+
+// Create a set with only one element.
+void make_set(ll data){
+    node * curr = new node(data);
+    my_map[data] = curr;
+}
+
+//Find the representative recursively and does path
+//compression as well
+
+node* find_set(node* curr){
+    if(curr->parent== curr)return curr;
+    curr->parent = find_set(curr->parent);
+    return curr->parent;
+}
+
+//Finds the representative of this set
+
+ll find_set(ll data){
+    return find_set(my_map[data])->data;
+}
+
+//Combines two sets together to one.
+// Does union by rank
+
+void Union(ll data1 , ll data2){
+
+    node*curr1 = my_map[data1];
+    node*curr2 = my_map[data2];
+
+    node * parent1 = find_set(curr1->parent);
+    node*parent2 = find_set(curr2->parent);
+
+    if(parent1->data == parent2->data)return;
+    if(parent1->rank >= parent2->rank){
+        if(parent1->rank == parent2->rank)parent1->rank++;
+        parent2->parent = parent1;
+    }
+    else parent1->parent = parent2;
+    return;
+}
+int main()
+{
+    ll n,m;
+    r2(n,m);
+    for(int i=1;i<=n;i++)make_set(i);
+
+    ll a,b;
+    ll arr[1001];
+    for(int i=1;i<=m;i++){
+        r2(a,b);
+        Union(a,b);
+        fill_n(arr,1001,0);
+        rep(my_map)
+        {
+            arr[it->second->parent->data]++;
+            cout<<it->first<<" "<<it->second->parent->data<<endl;
+        }
+
+        V temp;
+        for(int j=1;j<=1000;j++){
+            if(arr[j])temp.push_back(arr[j]);
+        }
+        sort(temp.begin(),temp.end());
+        /*debug
+        for(int j=0;j<temp.size();j++)
+        {
+            p_(temp[j]);
+        }
+*/
+        printf("\n");
+    }
+    return 0;
+}
