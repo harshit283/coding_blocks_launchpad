@@ -1,0 +1,101 @@
+#include "bits/stdc++.h"
+using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define ru(x) scanf("%llu",&x)
+#define ld long double
+#define rc(x) scanf("%c",&x)
+#define rf(x) scanf("%Lf",&x)
+#define r1(x) scanf("%lld",&x)
+#define r2(x,y) scanf("%lld%lld",&x,&y)
+#define rep(x)  for(auto it = x.begin();it!=x.end();it++)
+#define sz(n) resize((ull)n)
+#define r3(x,y,z) scanf("%lld%lld%lld",&x,&y,&z)
+#define r4(x,y,z,q) scanf("%lld%lld%lld%lld",&x,&y,&z,&q)
+#define MOD 1000000007
+#define debug cout<<"hello ";
+#define pn(x) printf("%lld\n",x)
+#define p_(x)  printf("%lld ",x)
+#define pp pair<ll,ll>
+#define V vector<ll>
+#define LM 1000000000000000000
+class node
+{
+    public:
+    ll data;
+    ll rank;
+    node * parent;
+    node(ll val){
+        data = val;
+        rank=0;
+        parent = this;
+    }
+};
+
+map<ll,node*>my_map;
+
+// Create a set with only one element.
+void make_set(ll data){
+    node * curr = new node(data);
+    my_map[data] = curr;
+}
+
+//Find the representative recursively and does path
+//compression as well
+
+node* find_set(node* curr){
+    if(curr->parent== curr)return curr;
+    curr->parent = find_set(curr->parent);
+    return curr->parent;
+
+}
+
+//Finds the representative of this set
+
+ll find_set(ll data){
+    return find_set(my_map[data])->data;
+}
+
+//Combines two sets together to one.
+// Does union by rank
+
+void Union(ll data1 , ll data2){
+
+    node*curr1 = my_map[data1];
+    node*curr2 = my_map[data2];
+
+    node * parent1 = find_set(curr1->parent);
+    node*parent2 = find_set(curr2->parent);
+
+    if(parent1->data == parent2->data)return;
+    if(parent1->rank >= parent2->rank){
+        if(parent1->rank == parent2->rank)parent1->rank++;
+        parent2->parent = parent1;
+    }
+    else parent1->parent = parent2;
+    return;
+}
+int main()
+{
+
+    make_set(1);
+    make_set(2);
+    make_set(3);
+    make_set(4);
+    make_set(5);
+    make_set(6);
+    make_set(7);
+
+    Union(1, 2);
+    Union(2, 3);
+    Union(4, 5);
+    Union(6, 7);
+    Union(5, 6);
+    Union(3, 7);
+
+    pn(find_set(1));
+    pn(find_set(4));
+    pn(find_set(5));
+    pn(find_set(6));
+    return 0;
+}
