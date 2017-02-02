@@ -1,3 +1,105 @@
+#include "bits/stdc++.h"
+using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define ru(x) scanf("%llu",&x)
+#define ld long double
+#define rc(x) scanf("%c",&x)
+#define rf(x) scanf("%Lf",&x)
+#define r1(x) scanf("%lld",&x)
+#define r2(x,y) scanf("%lld%lld",&x,&y)
+#define rep(x)  for(auto it = x.begin();it!=x.end();it++)
+#define sz(n) resize((ull)n)
+#define r3(x,y,z) scanf("%lld%lld%lld",&x,&y,&z)
+#define r4(x,y,z,q) scanf("%lld%lld%lld%lld",&x,&y,&z,&q)
+#define MOD 1000000007
+#define debug cout<<"hello ";
+#define pn(x) printf("%lld\n",x)
+#define p_(x)  printf("%lld ",x)
+#define pp pair<ll,ll>
+#define V vector<ll>
+#define LM 1000000000000000000
+int main()
+{
+
+    ll t;
+    cin>>t;
+    int n,m;
+    vector<string>v;
+    string s;
+    while(t--){
+        cin>>n>>m;
+        for(int i=0;i<n;i++){
+            cin>>s;
+            v.push_back(s);
+        }
+        pp arr[4];
+        ll k=0;
+        ll ans=LONG_LONG_MAX;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(v[i][j]=='*'){
+                    arr[k].first=i,arr[k].second=j,k++;
+                    break;
+                }
+            }
+        }
+        cout<<arr[0].first<<" "<<arr[0].second<<endl;
+
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(v[j][i]=='*'){
+                    arr[k].first=i,arr[k].second=j,k++;
+                    break;
+                }
+            }
+        }
+
+
+        for(int i=m-1;i>=0;i--){
+            for(int j=0;j<n;j++){
+                if(v[j][i]=='*'){
+                    arr[k].first=i,arr[k].second=j,k++;
+                    break;
+                }
+            }
+        }
+
+
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<m;j++){
+                if(v[i][j]=='*'){
+                    arr[k].first=i,arr[k].second=j,k++;
+                    break;
+                }
+            }
+        }
+
+       /* for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                ll temp = -1;
+                temp = max(abs(i-arr[0].first),abs(j-arr[0].second));
+                temp = max(temp,max(abs(i-arr[1].first),abs(j-arr[1].second)));
+                temp = max(temp,max(abs(i-arr[2].first),abs(j-arr[2].second)));
+                temp = max(temp,max(abs(i-arr[3].first),abs(j-arr[3].second)));
+                ans= min(ans,temp);
+            }
+        }
+*/
+        if(ans!=LONG_LONG_MAX)
+        cout<<ans+1<<endl;
+        else cout<<ans;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
 #include<bits/stdc++.h>
 using namespace std;
 template<typename type>
