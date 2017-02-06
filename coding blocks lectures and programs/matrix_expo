@@ -1,0 +1,96 @@
+#include "bits/stdc++.h"
+using namespace std;
+#define ll long long
+#define ull unsigned long long
+#define ru(x) scanf("%llu",&x)
+#define ld long double
+#define rc(x) scanf("%c",&x)
+#define rf(x) scanf("%Lf",&x)
+#define r1(x) scanf("%lld",&x)
+#define r2(x,y) scanf("%lld%lld",&x,&y)
+#define rep(x)  for(auto it = x.begin();it!=x.end();it++)
+#define sz(n) resize((ull)n)
+#define r3(x,y,z) scanf("%lld%lld%lld",&x,&y,&z)
+#define r4(x,y,z,q) scanf("%lld%lld%lld%lld",&x,&y,&z,&q)
+#define MOD 1000000007
+#define debug cout<<"hello ";
+#define pn(x) printf("%lld\n",x)
+#define p_(x)  printf("%lld ",x)
+#define pp pair<ll,ll>
+#define V vector<ll>
+#define LM 1000000000000000000
+ll mat[2][2];
+ll m;
+
+vector<vector<ll>> mul (vector<vector<ll>> temp){
+    vector<V>sum={{0,0},{0,0}};
+    for(int i=0;i<2;i++){
+        for(int j=0;j<2;j++){
+            for(int k=0;k<2;k++){
+                sum[i][j]+=((temp[i][k])*(temp[k][j]))%m;
+                sum[i][j]%=m;
+            }
+        }
+    }
+    return sum;
+}
+
+
+vector<vector<ll>> mul2 (vector<vector<ll>> temp){
+    vector<V>sum={{0,0},{0,0}};
+    for(int i=0;i<2;i++){
+        for(int j=0;j<2;j++){
+            for(int k=0;k<2;k++){
+                sum[i][j]+=((mat[i][k])*(temp[k][j]))%m;
+                sum[i][j]%=m;
+            }
+        }
+    }
+    return sum;
+}
+
+vector<vector<ll>> func(ll n,ll m){
+    if(n==1){
+        vector<V>temp;
+        temp.resize(2);
+        temp[0].push_back(mat[0][0]),temp[0].push_back(mat[0][1]);
+        temp[1].push_back(mat[1][0]),temp[1].push_back(mat[1][1]);
+        return temp;
+    }
+
+    vector<V> temp = func(n/2,m);
+    temp = mul(temp);
+    if(n%2)return mul2(temp);
+    return temp;
+}
+
+ll get_digits(ll num){
+    if(num==0)return 0;
+    return 1+get_digits(num/10);
+}
+
+ll power(ll num){
+    ll i = get_digits(num);
+    ll val=1;
+    for(ll j=1;j<=i;j++)val*=10;
+    return val;
+}
+int main()
+{
+    ll t;
+    ll a,n;
+    r1(t);
+    while(t--){
+        r3(a,n,m);
+        if(n==1){
+            pn(a%m);
+            continue;
+        }
+        ll p = power(a);
+        mat[0][0]=p,mat[0][1]=1,mat[1][0]=0,mat[1][1]=1;
+        vector<V>temp=func(n-1,m);
+        //cout<<temp[0][0]<<" "<<temp[0][1]<<" "<<temp[1][0]<<" "<<temp[1][1]<<endl;
+        pn(((temp[0][0]*a)+(temp[0][1]*a))%m);
+    }
+    return 0;
+}
